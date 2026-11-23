@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hiram-portfolio-ten.vercel.app/sitemap.xml

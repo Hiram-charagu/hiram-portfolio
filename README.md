@@ -1,55 +1,43 @@
 # Hiram Ngatia Charagu — Portfolio
 
-Responsive single-page portfolio built with React, Vite, and Tailwind CSS. The visual styling lives in `src/styles.css`; the page is composed from reusable section components in `src/components/`.
-
-## Project layout
-
-```text
-public/
-  assets/
-    Hiram_Ngatia_Charagu_CV_Final.docx
-    Hiram_Charagu_Software_Developer_Resume.pdf
-    hiram-portrait.webp       Optimized profile portrait
-    umma-university-logo.png
-src/
-  components/
-    About.jsx                About section and visual
-    Certifications.jsx       Training credentials
-    Education.jsx            Education cards
-    Footer.jsx               Contact and footer
-    Hero.jsx                 Introduction and hero artwork
-    Nav.jsx                  Responsive navigation
-    Projects.jsx             Featured and additional work
-    TechStack.jsx            Skills grouped by area
-    Timeline.jsx             Experience and learning timeline
-  App.jsx                    Page composition
-  data.js                    Profile, projects, skills, timeline content
-  main.jsx                   React entry point
-  styles.css                 Global styles and responsive layout
-index.html                   HTML shell and metadata
-vite.config.js               Vite configuration
-tailwind.config.js           Tailwind configuration
-postcss.config.js            PostCSS configuration
-```
+Responsive React/Vite portfolio for Hiram Ngatia Charagu. The dark slate, lime-accented design presents selected systems, education, community work, skills and contact options.
 
 ## Run locally
 
-```bash
+```sh
 npm install
 npm run dev
 ```
 
-Create a deployment build with `npm run build` and preview it with `npm run preview`.
+`npm run build` builds the Vite app and pre-renders its main route into `dist/index.html`; `npm run preview` serves that production output.
 
-## Personalize before publishing
+## Editing the content
 
-- Contact details and profile URLs in `src/data.js` are set from the details provided.
-- Review the two CV downloads in `public/assets/` and replace either file if you revise them.
-- Replace `public/assets/hiram-portrait.webp` with a new optimized portrait if you update the photo.
-- Confirm project descriptions, technologies, work dates, and leadership details match your actual contributions.
-- Add real project screenshots or repository/demo URLs when available. The current project visuals are custom CSS mockups, not screenshots of live products.
-- Update the title and metadata in `index.html` if the branding changes.
+Edit profile, education, project, skill, journey, certificate and section copy in [`src/content/site.ts`](src/content/site.ts). Run `npm run typecheck` to validate the content types. Project case studies are explicitly labeled with their current status. The project visuals are illustrative sketches because real screenshots and demo links have not been provided. Add certificate verification URLs to `verificationUrl` when available.
 
-The Umma University logo is served from a local asset copied from the [official university site](https://umma.ac.ke/wp-content/uploads/2025/09/umma-university-logo.png).
+## Contact form
 
-Navigation items point to sections on this single-page site; project case studies can be added later as routes or separate pages.
+The contact form uses Web3Forms. Copy `.env.example` to `.env.local`, then add your private Web3Forms access key to `VITE_WEB3FORMS_ACCESS_KEY`. `.env.local` is ignored by Git. Until a key is configured, the form shows an email fallback and does not transmit messages.
+
+## 3D scene and motion
+
+The procedural Three.js hero is loaded only when the hero is visible and the browser/device supports it. It auto-loads on capable desktop browsers and is activated by a tap on touch-first devices to keep the initial mobile experience light. It is skipped for reduced-motion users, devices reporting four or fewer CPU cores or 4 GB memory, and browsers without WebGL. The CSS orb remains the fallback. To disable the 3D scene entirely, remove the `<Suspense>`/`HeroScene` render in `src/components/Hero.jsx`; Lenis and the intersection-based section reveal also respect reduced-motion preferences.
+
+## Deployment and domain
+
+The canonical URL is `https://hiram-portfolio-ten.vercel.app/`, configured in `index.html`, `public/robots.txt` and `public/sitemap.xml`. The repository deploys through Vercel on pushes to `main`. For a custom domain, add it in Vercel Project Settings → Domains, complete the DNS records shown there, then update the canonical, Open Graph, JSON-LD, sitemap and robots URLs together.
+
+## Changelog
+
+- Added a lazy procedural WebGL network orb with a static fallback, reduced-motion and low-capability checks.
+- Replaced remote font loading with self-hosted Manrope and DM Mono; improved copy sizing, contrast, focus styles, landmarks and mobile navigation behavior.
+- Consolidated portfolio content in `src/content/site.ts`; added case-study details, project status labels, instructor/Web3, SecGuard and UMMA Telemedicine information.
+- Added server-rendered HTML, canonical/social metadata, an Open Graph preview, Person JSON-LD, sitemap, robots, manifest and favicon links.
+- Added the Web3Forms contact form shell and removed the public phone text and DOCX link.
+
+## Remaining setup
+
+- Add the Web3Forms access key privately to Vercel and `.env.local` before expecting form delivery.
+- Add project screenshots/demo URLs and certificate verification links when you have them.
+- Local Lighthouse mobile run on the production preview: Performance 87, Accessibility 100, Best Practices 100, SEO 100; LCP 0.9 s and CLS 0. The performance target of 90+ is not yet met, and this local score may differ from the deployed site. No pre-change Lighthouse baseline was recorded.
+- Enable Vercel Web Analytics in the project dashboard before adding its tracking integration; it is not active in the current build.

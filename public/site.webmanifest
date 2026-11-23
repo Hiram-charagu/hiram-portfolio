@@ -1,0 +1,9 @@
+{
+  "name": "Hiram Ngatia Charagu — Software Developer",
+  "short_name": "Hiram Charagu",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0c0b",
+  "theme_color": "#0b0c0b",
+  "icons": [{ "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }]
+}
