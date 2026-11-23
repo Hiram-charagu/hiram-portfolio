@@ -39,5 +39,5 @@ The canonical URL is `https://hiram-portfolio-ten.vercel.app/`, configured in `i
 
 - Add the Web3Forms access key privately to Vercel and `.env.local` before expecting form delivery.
 - Add project screenshots/demo URLs and certificate verification links when you have them.
-- Local Lighthouse mobile run on the production preview: Performance 87, Accessibility 100, Best Practices 100, SEO 100; LCP 0.9 s and CLS 0. The performance target of 90+ is not yet met, and this local score may differ from the deployed site. No pre-change Lighthouse baseline was recorded.
+- Lighthouse mobile run on the deployed production URL: Performance 86, Accessibility 100, Best Practices 100, SEO 100; LCP 1.6 s, CLS 0, and Total Blocking Time 490 ms. The performance target of 90+ is not yet met. No pre-change Lighthouse baseline was recorded.
 - Enable Vercel Web Analytics in the project dashboard before adding its tracking integration; it is not active in the current build.
