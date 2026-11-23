@@ -7,7 +7,8 @@ import TechStack from './components/TechStack.jsx'
 import Timeline from './components/Timeline.jsx'
 import Certifications from './components/Certifications.jsx'
 import Footer from './components/Footer.jsx'
+import Reveal from './components/Reveal.jsx'
 
 export default function App() {
-  return <><Nav/><main><Hero/><Projects/><About/><Education/><TechStack/><Timeline/><Certifications/></main><Footer/></>
+  return <><a className="skip-link" href="#main-content">Skip to content</a><Nav/><main id="main-content"><Hero/><Reveal><Projects/></Reveal><Reveal><About/></Reveal><Reveal><Education/></Reveal><Reveal><TechStack/></Reveal><Reveal><Timeline/></Reveal><Reveal><Certifications/></Reveal></main><Footer/></>
 }

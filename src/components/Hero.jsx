@@ -1,15 +1,47 @@
-import { ArrowDown, ArrowUpRight, Github, Linkedin, MoveUpRight } from 'lucide-react'
-import { profile } from '../data'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { ArrowDown, ArrowUpRight, Github, Linkedin, MoveUpRight, Orbit } from 'lucide-react'
+import { content, profile } from '../data'
+
+const HeroScene = lazy(() => import('./hero3d/HeroScene.jsx'))
+function StaticOrb() {
+  return <div className="static-orb" aria-hidden="true"><div className="orbit orbit-a"/><div className="orbit orbit-b"/><div className="orbit orbit-c"/><div className="art-core"><div className="core-inner"><span>H</span></div></div><i className="node node-one"/><i className="node node-two"/><i className="node node-three"/></div>
+}
 
 export default function Hero() {
-  return <section className="hero section-pad" id="home">
+  const { hero } = content
+  const art = useRef(null)
+  const [loadScene, setLoadScene] = useState(false)
+  const [sceneAvailable, setSceneAvailable] = useState(false)
+  useEffect(() => {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+    const weak = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.deviceMemory && navigator.deviceMemory <= 4)
+    let webgl = false
+    try { const canvas = document.createElement('canvas'); webgl = Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl')) } catch { /* retain the static fallback */ }
+    if (reduced || weak || !webgl) return
+    setSceneAvailable(true)
+    const pointerDriven = matchMedia('(hover: hover) and (pointer: fine)').matches
+    const mobileDevice = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+    if (mobileDevice || navigator.maxTouchPoints > 0 || !pointerDriven) return
+    let loadTimer
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        observer.disconnect()
+        loadTimer = window.setTimeout(() => setLoadScene(true), 400)
+      }
+    }, { rootMargin: '120px' })
+    observer.observe(art.current)
+    return () => { observer.disconnect(); window.clearTimeout(loadTimer) }
+  }, [])
+  return <section className="hero section-pad" id="home" aria-labelledby="hero-title">
     <div className="hero-gridline" aria-hidden="true" />
     <div className="hero-copy">
-      <p className="eyebrow"><span className="eyebrow-dot" /> COMPUTER SCIENCE <i>·</i> SOFTWARE DEVELOPMENT <i>·</i> TECHNOLOGY</p>
-      <h1>Interfaces for<br/>the work behind<br/><span className="accent-word">everyday life</span><span className="period">.</span></h1>
+      <p className="eyebrow"><span className="eyebrow-dot" /> {hero.eyebrow}</p>
+      <h1 id="hero-title">{hero.lines[0]}<br/>{hero.lines[1]}<br/><span className="accent-word">{hero.lines[2]}</span><span className="period">.</span></h1>
       <div className="hero-bottom">
-        <p className="hero-intro">I’m Hiram, a computer science student and software developer. My work spans web and mobile products, fintech integrations, and the interfaces people use to get things done.</p>
-        <div className="hero-actions"><a href="#work" className="button button-primary">Explore my work <ArrowDown size={15} /></a><a href="/assets/Hiram_Charagu_Software_Developer_Resume.pdf" className="text-link" target="_blank" rel="noreferrer">View resume PDF <ArrowUpRight size={15} /></a></div>
+        <p className="hero-role">{profile.role}</p>
+        <p className="hero-intro">{hero.intro}</p>
+        <div className="hero-actions"><a href="#work" className="button button-primary">{hero.cta} <ArrowDown size={15} /></a><a href={profile.resume} className="text-link" target="_blank" rel="noreferrer">{hero.resumeLabel} <ArrowUpRight size={15} /></a></div>
+        <p className="hero-proof">{hero.proof}</p>
       </div>
       <div className="hero-socials">
         <span>BASED IN KENYA</span><span className="social-line" />
@@ -18,12 +50,11 @@ export default function Hero() {
         <a href={profile.email ? `mailto:${profile.email}` : '#contact'} aria-label="Email Hiram"><span>Email ↗</span></a>
       </div>
     </div>
-    <div className="hero-art" aria-label="Abstract illustration of connected digital systems" role="img">
+    <div className="hero-art" ref={art} aria-label="Illustration of a connected digital network">
       <div className="art-caption"><span>FIG. 01</span><span>IDEAS, CONNECTED</span></div>
       <div className="art-grid" />
-      <div className="orbit orbit-a" /><div className="orbit orbit-b" /><div className="orbit orbit-c" />
-      <div className="art-core"><div className="core-inner"><span>H</span></div></div>
-      <span className="node node-one" /><span className="node node-two" /><span className="node node-three" />
+      <div className="hero-scene"><StaticOrb/>{loadScene && <Suspense fallback={<StaticOrb/>}><HeroScene/></Suspense>}</div>
+      {sceneAvailable && !loadScene && <button className="scene-activate" onClick={() => setLoadScene(true)} aria-label="Enable the interactive 3D network illustration" title="Enable 3D view"><Orbit size={18}/></button>}
       <div className="art-label label-one"><span className="label-icon">01</span><span>THINK<br />IN SYSTEMS</span></div>
       <div className="art-label label-two"><span className="label-icon">02</span><span>BUILD WITH<br />INTENTION</span></div>
       <div className="art-coordinate">WEB / MOBILE<br/>SYSTEMS / PRODUCT</div>
