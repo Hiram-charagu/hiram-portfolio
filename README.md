@@ -27,6 +27,10 @@ The procedural Three.js hero is loaded only when the hero is visible and the bro
 
 The canonical URL is `https://hiram-portfolio-ten.vercel.app/`, configured in `index.html`, `public/robots.txt` and `public/sitemap.xml`. The repository deploys through Vercel on pushes to `main`. For a custom domain, add it in Vercel Project Settings → Domains, complete the DNS records shown there, then update the canonical, Open Graph, JSON-LD, sitemap and robots URLs together.
 
+## Search engine setup
+
+The page is pre-rendered and exposes a crawlable title, description, Person/WebSite structured data, canonical URL, portrait alt text, and sitemap. To help Google and Bing discover it, add and verify the site in [Google Search Console](https://search.google.com/search-console/) and [Bing Webmaster Tools](https://www.bing.com/webmasters/), then submit `https://hiram-portfolio-ten.vercel.app/sitemap.xml`. Search engines control indexing and ranking; sitemap submission is a discovery hint, not a guarantee.
+
 ## Changelog
 
 - Added a lazy procedural WebGL network orb with a static fallback, reduced-motion and low-capability checks.

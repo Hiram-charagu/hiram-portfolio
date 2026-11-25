@@ -44,7 +44,7 @@ export const content = {
   },
   navigation: [
     ['Work', '#work'], ['About', '#about'], ['Education', '#education'],
-    ['Skills', '#skills'], ['Journey', '#journey'], ['Credentials', '#credentials'], ['Contact', '#contact'],
+    ['Skills', '#stack'], ['Journey', '#journey'], ['Credentials', '#credentials'], ['Contact', '#contact'],
   ] as [string, string][],
   hero: {
     eyebrow: 'WEB & MOBILE · FINTECH · WEB3',
